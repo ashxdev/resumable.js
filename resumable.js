@@ -198,7 +198,7 @@
           return (size/1024.0/1024.0/1024.0).toFixed(1) + ' GB';
         }
       },
-      getTarget:function(request, params){
+      getTarget:async function(request, params){
         var target = $.getOpt('target');
 
         if (request === 'test' && $.getOpt('testTarget')) {
@@ -206,7 +206,7 @@
         }
 
         if (typeof target === 'function') {
-          return target(params);
+          return await target(params);
         }
 
         var separator = target.indexOf('?') < 0 ? '?' : '&';
