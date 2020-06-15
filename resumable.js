@@ -206,7 +206,8 @@
         }
 
         if (typeof target === 'function') {
-          return await target(params);
+          const targetValue =  await target(params);
+          return targetValue
         }
 
         var separator = target.indexOf('?') < 0 ? '?' : '&';
@@ -686,7 +687,7 @@
       $.xhr = null;
 
       // test() makes a GET request without any data to see if the chunk has already been uploaded in a previous session
-      $.test = function(){
+      $.test = async function(){
         // Set up request and listen for event
         $.xhr = new XMLHttpRequest();
 
@@ -739,7 +740,8 @@
           })
         );
         // Append the relevant chunk and send it
-        $.xhr.open($.getOpt('testMethod'), $h.getTarget('test', params));
+        const url = await $h.getTarget('test', params)
+        $.xhr.open($.getOpt('testMethod'), url);
         $.xhr.timeout = $.getOpt('xhrTimeout');
         $.xhr.withCredentials = $.getOpt('withCredentials');
         // Add data from header options
